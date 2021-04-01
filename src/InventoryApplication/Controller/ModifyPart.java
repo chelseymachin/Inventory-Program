@@ -61,6 +61,18 @@ public class ModifyPart implements Initializable {
         int min = Integer.parseInt(minTextField.getText());
         int max = Integer.parseInt(maxTextField.getText());
 
+        if (min > max) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Incorrect Value");
+            alert.setContentText("Please enter a minimum value that's less than the maximum value.");
+            alert.showAndWait();
+        } else if (stock < min || stock > max) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Incorrect Value");
+            alert.setContentText("Please enter a stock value that's in between the minimum and maximum allowable stock.");
+            alert.showAndWait();
+        }
+
         if (isInHouse()) {
             int machineId = Integer.parseInt(machineIdTextField.getText());
             InHouse updatedPart = new InHouse(id, name, price, stock, min, max, machineId);
