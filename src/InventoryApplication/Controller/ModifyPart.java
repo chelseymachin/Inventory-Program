@@ -71,24 +71,25 @@ public class ModifyPart implements Initializable {
             alert.setHeaderText("Incorrect Value");
             alert.setContentText("Please enter a stock value that's in between the minimum and maximum allowable stock.");
             alert.showAndWait();
+        } else {
+            if (isInHouse()) {
+                int machineId = Integer.parseInt(machineIdTextField.getText());
+                InHouse updatedPart = new InHouse(id, name, price, stock, min, max, machineId);
+                Inventory.updatePart(selectionIndex, updatedPart);
+            } else if (isOutsourced()) {
+                String companyName = machineIdTextField.getText();
+                Outsourced updatedPart = new Outsourced(id, name, price, stock, min, max, companyName);
+                Inventory.updatePart(selectionIndex, updatedPart);
+            }
+            Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/View/MainScreen.fxml"));
+            Stage stage = (Stage) cancelButton.getScene().getWindow();
+            Scene scene = new Scene(root, 800, 320);
+            stage.setTitle("Main Screen");
+            stage.setScene(scene);
+            stage.show();
         }
 
-        if (isInHouse()) {
-            int machineId = Integer.parseInt(machineIdTextField.getText());
-            InHouse updatedPart = new InHouse(id, name, price, stock, min, max, machineId);
-            Inventory.updatePart(selectionIndex, updatedPart);
-        } else if (isOutsourced()) {
-            String companyName = machineIdTextField.getText();
-            Outsourced updatedPart = new Outsourced(id, name, price, stock, min, max, companyName);
-            Inventory.updatePart(selectionIndex, updatedPart);
-        }
 
-        Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/View/MainScreen.fxml"));
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        Scene scene = new Scene(root, 800, 320);
-        stage.setTitle("Main Screen");
-        stage.setScene(scene);
-        stage.show();
 
     }
 
