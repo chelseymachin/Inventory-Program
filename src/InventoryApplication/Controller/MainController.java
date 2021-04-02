@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -104,14 +105,22 @@ public class MainController implements Initializable {
     }
 
     public void deletePart(ActionEvent actionEvent) {
-        selectedPart = partsTable.getSelectionModel().getSelectedItem();
+        Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
+
         if (selectedPart != null) {
-            Inventory.deletePart(selectedPart);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Confirm Delete Part");
+            alert.setContentText("Are you sure you want to remove this part?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                Inventory.deletePart(selectedPart);
+            }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("No Input");
-            alert.setContentText("Please select a valid part to delete");
-            alert.showAndWait();
+            Alert otherAlert = new Alert(Alert.AlertType.ERROR);
+            otherAlert.setHeaderText("No Input");
+            otherAlert.setContentText("Please select a valid product to delete");
+            otherAlert.showAndWait();
         }
     }
 
@@ -151,15 +160,22 @@ public class MainController implements Initializable {
 
     public void deleteProduct(ActionEvent actionEvent) {
         Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct != null) {
-            Inventory.deleteProduct(selectedProduct);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("No Input");
-            alert.setContentText("Please select a valid product to delete");
-            alert.showAndWait();
-        }
 
+        if (selectedProduct != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Confirm Delete Product");
+            alert.setContentText("Are you sure you want to remove this product?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                Inventory.deleteProduct(selectedProduct);
+            }
+        } else {
+            Alert otherAlert = new Alert(Alert.AlertType.ERROR);
+            otherAlert.setHeaderText("No Input");
+            otherAlert.setContentText("Please select a valid product to delete");
+            otherAlert.showAndWait();
+        }
     }
 
     public void searchProducts(ActionEvent actionEvent) {

@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyProduct implements Initializable {
@@ -73,9 +74,18 @@ public class ModifyProduct implements Initializable {
     }
 
     public void removePart(ActionEvent actionEvent) {
-        Part selectedPart = associatedPartsTable.getSelectionModel().getSelectedItem();
-        associatedParts.remove(selectedPart);
-        associatedPartsTable.setItems(associatedParts);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Confirm Remove Part");
+        alert.setContentText("Are you sure you want to remove this part?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            Part selectedPart = associatedPartsTable.getSelectionModel().getSelectedItem();
+            associatedParts.remove(selectedPart);
+            associatedPartsTable.setItems(associatedParts);
+        }
+
+
     }
 
     public void saveModifyProduct(ActionEvent actionEvent) throws IOException {
