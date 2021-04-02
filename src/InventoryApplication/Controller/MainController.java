@@ -1,6 +1,8 @@
 package InventoryApplication.Controller;
 
 import InventoryApplication.Model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -125,7 +127,10 @@ public class MainController implements Initializable {
     }
 
     public void searchParts(ActionEvent actionEvent) {
-        partsTable.setItems(Inventory.lookupPart(partSearch.getText()));
+        String search = partSearch.getText();
+        ObservableList<Part> parts = Inventory.lookupPart(search);
+
+        partsTable.setItems(parts);
     }
 
     public void toAddProduct(ActionEvent actionEvent) throws IOException {
@@ -179,7 +184,6 @@ public class MainController implements Initializable {
     }
 
     public void searchProducts(ActionEvent actionEvent) {
-        productsTable.setItems(Inventory.lookupProduct(productSearch.getText()));
     }
 
     public void exitProgram(ActionEvent actionEvent) {

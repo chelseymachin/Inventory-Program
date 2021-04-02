@@ -63,7 +63,6 @@ public class AddProduct implements Initializable {
     }
 
     public void searchParts(ActionEvent actionEvent) {
-        allPartsTable.setItems(Inventory.lookupPart(partsSearch.getText()));
     }
 
     public void addPart(ActionEvent actionEvent) {

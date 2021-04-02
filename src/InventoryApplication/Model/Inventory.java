@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Random;
 
 public class Inventory {
@@ -18,7 +19,7 @@ public class Inventory {
         allProducts.add(newProduct);
     }
 
-    public Part lookupPart(int partId) {
+    public static Part lookupPart(int partId) {
         for (Part x : allParts) {
             if (x.getId() == partId) {
                 return x;
