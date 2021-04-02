@@ -28,7 +28,7 @@ public class Inventory {
         return null;
     }
 
-    public Product lookupProduct(int productId) {
+    public static Product lookupProduct(int productId) {
         for (Product x : allProducts) {
             if (x.getId() == productId) {
                 return x;

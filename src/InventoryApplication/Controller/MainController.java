@@ -130,6 +130,20 @@ public class MainController implements Initializable {
         String search = partSearch.getText();
         ObservableList<Part> parts = Inventory.lookupPart(search);
 
+        if (parts.isEmpty()) {
+            try {
+                int searchId = Integer.parseInt(search);
+                Part part = Inventory.lookupPart(searchId);
+                if (part != null) {
+                    parts.add(part);
+                }
+
+            } catch (NumberFormatException e) {
+                // Ignore exception catch
+            }
+
+        }
+
         partsTable.setItems(parts);
     }
 
@@ -184,6 +198,24 @@ public class MainController implements Initializable {
     }
 
     public void searchProducts(ActionEvent actionEvent) {
+        String search = productSearch.getText();
+        ObservableList<Product> products = Inventory.lookupProduct(search);
+
+        if (products.isEmpty()) {
+            try {
+                int searchId = Integer.parseInt(search);
+                Product product = Inventory.lookupProduct(searchId);
+                if (product != null) {
+                    products.add(product);
+                }
+
+            } catch (NumberFormatException e) {
+                // Ignore exception catch
+            }
+
+        }
+
+        productsTable.setItems(products);
     }
 
     public void exitProgram(ActionEvent actionEvent) {
