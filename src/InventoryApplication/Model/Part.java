@@ -1,5 +1,6 @@
-package InventoryApplication.Model; /**
-* Supplied class Part.java 
+package InventoryApplication.Model;
+/**
+ * * Supplied class Part.java
  */
 
 /**

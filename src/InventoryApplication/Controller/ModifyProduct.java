@@ -10,10 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -88,18 +85,31 @@ public class ModifyProduct implements Initializable {
         int stock = Integer.parseInt(invTextField.getText());
         int min = Integer.parseInt(minTextField.getText());
         int max = Integer.parseInt(maxTextField.getText());
-        Product updatedProduct = new Product(id, name, price, stock, min, max);
-        for (Part p : associatedParts) {
-            updatedProduct.addAssociatedPart(p);
-        }
-        Inventory.updateProduct(selectionIndex, updatedProduct);
 
-        Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/view/MainScreen.fxml"));
-        Stage stage = (Stage) saveButton.getScene().getWindow();
-        Scene scene = new Scene(root, 800, 320);
-        stage.setTitle("Main Screen");
-        stage.setScene(scene);
-        stage.show();
+        if (min > max) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Incorrect Value");
+            alert.setContentText("Please enter a minimum value that's less than the maximum value.");
+            alert.showAndWait();
+        } else if (stock < min || stock > max) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Incorrect Value");
+            alert.setContentText("Please enter a stock value that's in between the minimum and maximum allowable stock.");
+            alert.showAndWait();
+        } else {
+            Product updatedProduct = new Product(id, name, price, stock, min, max);
+            for (Part p : associatedParts) {
+                updatedProduct.addAssociatedPart(p);
+            }
+            Inventory.updateProduct(selectionIndex, updatedProduct);
+
+            Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/view/MainScreen.fxml"));
+            Stage stage = (Stage) saveButton.getScene().getWindow();
+            Scene scene = new Scene(root, 800, 320);
+            stage.setTitle("Main Screen");
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     public void toMainScreen(ActionEvent actionEvent) throws IOException {
