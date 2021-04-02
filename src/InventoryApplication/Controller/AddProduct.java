@@ -63,6 +63,24 @@ public class AddProduct implements Initializable {
     }
 
     public void searchParts(ActionEvent actionEvent) {
+        String search = partsSearch.getText();
+        ObservableList<Part> parts = Inventory.lookupPart(search);
+
+        if (parts.isEmpty()) {
+            try {
+                int searchId = Integer.parseInt(search);
+                Part part = Inventory.lookupPart(searchId);
+                if (part != null) {
+                    parts.add(part);
+                }
+
+            } catch (NumberFormatException e) {
+                // Ignore exception catch
+            }
+
+        }
+
+        allPartsTable.setItems(parts);
     }
 
     public void addPart(ActionEvent actionEvent) {
