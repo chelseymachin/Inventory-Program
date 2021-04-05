@@ -194,6 +194,9 @@ public class ModifyProduct implements Initializable {
         associatedParts = selection.getAllAssociatedParts();
     }
 
+    /**
+     * loads data from selected product into text field at initialization
+     */
     public void loadData() {
         idTextField.setText(Integer.toString(selection.getId()));
         nameTextField.setText(selection.getName());

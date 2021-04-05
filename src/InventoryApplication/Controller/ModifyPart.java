@@ -35,9 +35,19 @@ public class ModifyPart implements Initializable {
     public Button cancelButton;
     private static Part selection;
     private static int selectionIndex;
+
+    /**
+     *
+     * @return true if radio button for inHouse part is selected
+     */
     private Boolean isInHouse() {
         return inhouse.isSelected();
     }
+
+    /**
+     *
+     * @return true if radio button for outsourced part is selected
+     */
     private Boolean isOutsourced() {
         return outsourced.isSelected();
     }
@@ -47,15 +57,28 @@ public class ModifyPart implements Initializable {
         loadData();
     }
 
+    /**
+     *
+     * @param actionEvent when radio button is switched to inHouse, changes bottom label to Machine ID
+     */
     public void toInhouse(ActionEvent actionEvent) {
         modifyPartChangeLabel.setText("Machine ID");
 
     }
 
+    /**
+     *
+     * @param actionEvent when radio button is switched to outsourced, changes bottom label to Company Name
+     */
     public void toOutsourced(ActionEvent actionEvent) {
         modifyPartChangeLabel.setText("Company Name");
     }
 
+    /**
+     *
+     * @param actionEvent upon clicking save button, program checks for any blanks, if no blanks, saves each entry as data for the part modification, then sends back to main screen
+     * @throws IOException
+     */
     public void saveModifyPart(ActionEvent actionEvent) throws IOException {
         if (idTextField.getText().isEmpty() || nameTextField.getText().isEmpty() || priceTextField.getText().isEmpty() || inventoryTextField.getText().isEmpty() || minTextField.getText().isEmpty() || maxTextField.getText().isEmpty() || machineIdTextField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -100,6 +123,11 @@ public class ModifyPart implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent when cancel button is pressed, return to main screen without saving any info
+     * @throws IOException
+     */
     public void toMainScreen(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/View/MainScreen.fxml"));
         Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -108,11 +136,21 @@ public class ModifyPart implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     *
+     * @param part passes selection data about selectedPart into controller from main screen controller
+     * @param index passes index selection for selectedPart into controller from main screen controller
+     */
     public static void passData(Part part, int index) {
         selection = part;
         selectionIndex = index;
 
     }
+
+    /**
+     * loads data into initial text field spaces from passData selection
+     */
     private void loadData() {
         idTextField.setText(Integer.toString(selection.getId()));
         nameTextField.setText(selection.getName());
