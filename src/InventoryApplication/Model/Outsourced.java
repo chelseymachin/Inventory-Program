@@ -1,12 +1,9 @@
 package InventoryApplication.Model;
 
 /**
- * Outsourced class is an extension of Parts class; includes same constructor with added company name info */
-
-/**
- *
- * @author Chelsey Machin
+ * Outsourced class is an extension of Parts class; includes same constructor with added company name info
  */
+
 public class Outsourced extends Part{
     private String companyName;
     public Outsourced(int id, String name, double price, int stock, int min, int max, String companyName) {

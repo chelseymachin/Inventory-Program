@@ -19,9 +19,10 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-/** This class acts as a Controller for the Modify Product screen.  You can edit all or some fields and then save to update the selected product in Inventory */
-
-
+/**
+ * This class acts as a Controller for the Modify Product screen.
+ * You can edit all or some fields and then save to update the selected product in Inventory
+ */
 public class ModifyProduct implements Initializable {
     public TextField idTextField;
     public TextField nameTextField;
@@ -66,6 +67,11 @@ public class ModifyProduct implements Initializable {
         associatedPartsPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 
+    /**
+     *
+     * @param actionEvent when search box above parts table is implemented, uses lookupPart function to return
+     *                    a list of matching parts to fill the table
+     */
     public void searchParts(ActionEvent actionEvent) {
         String search = partsSearch.getText();
         ObservableList<Part> parts = Inventory.lookupPart(search);
@@ -87,12 +93,20 @@ public class ModifyProduct implements Initializable {
         allPartsTable.setItems(parts);
     }
 
+    /**
+     *
+     * @param actionEvent adds selected part from parts table to list of associated parts table for this product
+     */
     public void addPart(ActionEvent actionEvent) {
         Part selectedPart = allPartsTable.getSelectionModel().getSelectedItem();
         associatedParts.add(selectedPart);
         associatedPartsTable.setItems(associatedParts);
     }
 
+    /**
+     *
+     * @param actionEvent removes selected part from associated parts table; confirms action with user
+     */
     public void removePart(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Confirm Remove Part");
@@ -108,37 +122,45 @@ public class ModifyProduct implements Initializable {
 
     }
 
-    public void saveModifyProduct(ActionEvent actionEvent) throws IOException {
-        int id = Integer.parseInt(idTextField.getText());
-        String name = nameTextField.getText();
-        double price = Double.parseDouble(priceTextField.getText());
-        int stock = Integer.parseInt(invTextField.getText());
-        int min = Integer.parseInt(minTextField.getText());
-        int max = Integer.parseInt(maxTextField.getText());
 
-        if (min > max) {
+    public void saveModifyProduct(ActionEvent actionEvent) throws IOException {
+        if (idTextField.getText().isEmpty() || nameTextField.getText().isEmpty() || priceTextField.getText().isEmpty() || invTextField.getText().isEmpty() || minTextField.getText().isEmpty() || maxTextField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Incorrect Value");
-            alert.setContentText("Please enter a minimum value that's less than the maximum value.");
-            alert.showAndWait();
-        } else if (stock < min || stock > max) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Incorrect Value");
-            alert.setContentText("Please enter a stock value that's in between the minimum and maximum allowable stock.");
+            alert.setContentText("Please enter an appropriate value for each blank field before saving.");
             alert.showAndWait();
         } else {
-            Product updatedProduct = new Product(id, name, price, stock, min, max);
-            for (Part p : associatedParts) {
-                updatedProduct.addAssociatedPart(p);
-            }
-            Inventory.updateProduct(selectionIndex, updatedProduct);
+            int id = Integer.parseInt(idTextField.getText());
+            String name = nameTextField.getText();
+            double price = Double.parseDouble(priceTextField.getText());
+            int stock = Integer.parseInt(invTextField.getText());
+            int min = Integer.parseInt(minTextField.getText());
+            int max = Integer.parseInt(maxTextField.getText());
 
-            Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/view/MainScreen.fxml"));
-            Stage stage = (Stage) saveButton.getScene().getWindow();
-            Scene scene = new Scene(root, 800, 320);
-            stage.setTitle("Main Screen");
-            stage.setScene(scene);
-            stage.show();
+            if (min > max) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Incorrect Value");
+                alert.setContentText("Please enter a minimum value that's less than the maximum value.");
+                alert.showAndWait();
+            } else if (stock < min || stock > max) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Incorrect Value");
+                alert.setContentText("Please enter a stock value that's in between the minimum and maximum allowable stock.");
+                alert.showAndWait();
+            } else {
+                Product updatedProduct = new Product(id, name, price, stock, min, max);
+                for (Part p : associatedParts) {
+                    updatedProduct.addAssociatedPart(p);
+                }
+                Inventory.updateProduct(selectionIndex, updatedProduct);
+
+                Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/view/MainScreen.fxml"));
+                Stage stage = (Stage) saveButton.getScene().getWindow();
+                Scene scene = new Scene(root, 800, 320);
+                stage.setTitle("Main Screen");
+                stage.setScene(scene);
+                stage.show();
+            }
         }
     }
 
