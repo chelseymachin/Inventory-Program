@@ -3,15 +3,9 @@ package InventoryApplication.Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/** Product class stores data about each product, gets/sets all info for products, and maintains observable list of associated parts */
-
-
-
 /**
- *
- * @author Chelsey Machin
+ * Product class stores data about each product, gets/sets all info for products, and maintains observable list of associated parts
  */
-
 public class Product {
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;

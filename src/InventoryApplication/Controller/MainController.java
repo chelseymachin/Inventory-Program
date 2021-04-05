@@ -265,7 +265,16 @@ public class MainController implements Initializable {
      * @param actionEvent upon pressing exit button, closes program fully
      */
     public void exitProgram(ActionEvent actionEvent) {
-        Stage stage = (Stage) exitButton.getScene().getWindow();
-        stage.close();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Confirm Program Exit");
+            alert.setContentText("Are you sure you want to leave the program?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                Stage stage = (Stage) exitButton.getScene().getWindow();
+                stage.close();
+            }
+
+
     }
 }
