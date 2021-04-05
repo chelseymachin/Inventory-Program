@@ -146,37 +146,45 @@ public class AddProduct implements Initializable {
             alert.setContentText("Please enter an appropriate value for each blank field before saving.");
             alert.showAndWait();
         } else {
-            int id = Integer.parseInt(idTextField.getText());
-            String name = nameTextField.getText();
-            double price = Double.parseDouble(priceTextField.getText());
-            int stock = Integer.parseInt(invTextField.getText());
-            int min = Integer.parseInt(minTextField.getText());
-            int max = Integer.parseInt(maxTextField.getText());
-            if (min > max) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Incorrect Value");
-                alert.setContentText("Please enter a minimum value that's less than the maximum value.");
-                alert.showAndWait();
-            } else if (stock < min || stock > max) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Incorrect Value");
-                alert.setContentText("Please enter a stock value that's in between the minimum and maximum allowable stock.");
-                alert.showAndWait();
-            } else {
-                Product newProduct = new Product(id, name, price, stock, min, max);
-                for (Part p : associatedParts) {
-                    newProduct.addAssociatedPart(p);
+            try {
+                int id = Integer.parseInt(idTextField.getText());
+                String name = nameTextField.getText();
+                double price = Double.parseDouble(priceTextField.getText());
+                int stock = Integer.parseInt(invTextField.getText());
+                int min = Integer.parseInt(minTextField.getText());
+                int max = Integer.parseInt(maxTextField.getText());
+                if (min > max) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Incorrect Value");
+                    alert.setContentText("Please enter a minimum value that's less than the maximum value.");
+                    alert.showAndWait();
+                } else if (stock < min || stock > max) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Incorrect Value");
+                    alert.setContentText("Please enter a stock value that's in between the minimum and maximum allowable stock.");
+                    alert.showAndWait();
+                } else {
+                    Product newProduct = new Product(id, name, price, stock, min, max);
+                    for (Part p : associatedParts) {
+                        newProduct.addAssociatedPart(p);
+                    }
+
+                    Inventory.addProduct(newProduct);
+
+                    Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/view/MainScreen.fxml"));
+                    Stage stage = (Stage) saveButton.getScene().getWindow();
+                    Scene scene = new Scene(root, 800, 320);
+                    stage.setTitle("Main Screen");
+                    stage.setScene(scene);
+                    stage.show();
                 }
-
-                Inventory.addProduct(newProduct);
-
-                Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/view/MainScreen.fxml"));
-                Stage stage = (Stage) saveButton.getScene().getWindow();
-                Scene scene = new Scene(root, 800, 320);
-                stage.setTitle("Main Screen");
-                stage.setScene(scene);
-                stage.show();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Invalid values");
+                alert.setContentText("You've entered an invalid value.  Please enter a number for Inventory, Price, Min, Max, and Machine ID (if applicable).");
+                alert.showAndWait();
             }
+
         }
     }
 

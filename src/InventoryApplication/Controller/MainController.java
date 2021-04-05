@@ -218,7 +218,7 @@ public class MainController implements Initializable {
     public void deleteProduct(ActionEvent actionEvent) {
         Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
 
-        if (selectedProduct != null) {
+        if ((selectedProduct != null) && (selectedProduct.getAllAssociatedParts().isEmpty())) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Confirm Delete Product");
             alert.setContentText("Are you sure you want to remove this product?");
@@ -229,8 +229,8 @@ public class MainController implements Initializable {
             }
         } else {
             Alert otherAlert = new Alert(Alert.AlertType.ERROR);
-            otherAlert.setHeaderText("No Input");
-            otherAlert.setContentText("Please select a valid product to delete");
+            otherAlert.setHeaderText("Invalid Selection");
+            otherAlert.setContentText("Please select a valid product to delete. Please note that you cannot delete a product while it has associated parts.");
             otherAlert.showAndWait();
         }
     }

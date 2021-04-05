@@ -86,40 +86,48 @@ public class ModifyPart implements Initializable {
             alert.setContentText("Please enter an appropriate value for each blank field before saving.");
             alert.showAndWait();
         } else {
-            int id = Integer.parseInt(idTextField.getText());
-            String name = nameTextField.getText();
-            double price = Double.parseDouble(priceTextField.getText());
-            int stock = Integer.parseInt(inventoryTextField.getText());
-            int min = Integer.parseInt(minTextField.getText());
-            int max = Integer.parseInt(maxTextField.getText());
+            try {
+                int id = Integer.parseInt(idTextField.getText());
+                String name = nameTextField.getText();
+                double price = Double.parseDouble(priceTextField.getText());
+                int stock = Integer.parseInt(inventoryTextField.getText());
+                int min = Integer.parseInt(minTextField.getText());
+                int max = Integer.parseInt(maxTextField.getText());
 
-            if (min > max) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Incorrect Value");
-                alert.setContentText("Please enter a minimum value that's less than the maximum value.");
-                alert.showAndWait();
-            } else if (stock < min || stock > max) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Incorrect Value");
-                alert.setContentText("Please enter a stock value that's in between the minimum and maximum allowable stock.");
-                alert.showAndWait();
-            } else {
-                if (isInHouse()) {
-                    int machineId = Integer.parseInt(machineIdTextField.getText());
-                    InHouse updatedPart = new InHouse(id, name, price, stock, min, max, machineId);
-                    Inventory.updatePart(selectionIndex, updatedPart);
-                } else if (isOutsourced()) {
-                    String companyName = machineIdTextField.getText();
-                    Outsourced updatedPart = new Outsourced(id, name, price, stock, min, max, companyName);
-                    Inventory.updatePart(selectionIndex, updatedPart);
+                if (min > max) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Incorrect Value");
+                    alert.setContentText("Please enter a minimum value that's less than the maximum value.");
+                    alert.showAndWait();
+                } else if (stock < min || stock > max) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Incorrect Value");
+                    alert.setContentText("Please enter a stock value that's in between the minimum and maximum allowable stock.");
+                    alert.showAndWait();
+                } else {
+                    if (isInHouse()) {
+                        int machineId = Integer.parseInt(machineIdTextField.getText());
+                        InHouse updatedPart = new InHouse(id, name, price, stock, min, max, machineId);
+                        Inventory.updatePart(selectionIndex, updatedPart);
+                    } else if (isOutsourced()) {
+                        String companyName = machineIdTextField.getText();
+                        Outsourced updatedPart = new Outsourced(id, name, price, stock, min, max, companyName);
+                        Inventory.updatePart(selectionIndex, updatedPart);
+                    }
+                    Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/View/MainScreen.fxml"));
+                    Stage stage = (Stage) cancelButton.getScene().getWindow();
+                    Scene scene = new Scene(root, 800, 320);
+                    stage.setTitle("Main Screen");
+                    stage.setScene(scene);
+                    stage.show();
                 }
-                Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/View/MainScreen.fxml"));
-                Stage stage = (Stage) cancelButton.getScene().getWindow();
-                Scene scene = new Scene(root, 800, 320);
-                stage.setTitle("Main Screen");
-                stage.setScene(scene);
-                stage.show();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Invalid values");
+                alert.setContentText("You've entered an invalid value.  Please enter a number for Inventory, Price, Min, Max, and Machine ID (if applicable).");
+                alert.showAndWait();
             }
+
         }
     }
 
