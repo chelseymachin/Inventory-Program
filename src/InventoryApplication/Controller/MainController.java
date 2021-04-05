@@ -16,9 +16,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-/** This class acts as a Controller for the Main screen.  You can search through all parts and products here, select one to modify, or go to the add screen. */
-
-
+/** This class acts as a Controller for the Main screen.
+ * You can search through all parts and products here, select one to modify, or go to the add screen.*/
 public class MainController implements Initializable {
     public TableView<Part> partsTable;
     public TableColumn<Part, Integer> partsIdCol;
@@ -39,12 +38,14 @@ public class MainController implements Initializable {
     public Button deleteProductButton;
     public TextField productSearch;
     public Button exitButton;
-
     private Part selectedPart;
     private Product selectedProduct;
     private int selectionIndex;
     public static boolean firstTime = true;
 
+    /**
+     * Adds initial test data into program as inventory
+     */
     public void addTestData() {
         if (!firstTime) {
             return;
@@ -58,6 +59,8 @@ public class MainController implements Initializable {
         Inventory.addPart(c);
         Product d = new Product(Inventory.getRandomId(), "Gasket Frame", 15.99, 15, 0, 555);
         Inventory.addProduct(d);
+        Product e = new Product(Inventory.getRandomId(), "Loopy Hoop", 29.99, 110, 0, 9999);
+        Inventory.addProduct(e);
     }
 
     @Override
@@ -79,6 +82,11 @@ public class MainController implements Initializable {
         productsPricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 
+    /**
+     *
+     * @param actionEvent when add part button is clicked, takes you to add part screen with blanks
+     * @throws IOException
+     */
     public void toAddPart(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/View/AddPart.fxml"));
         Stage stage = (Stage) addPartButton.getScene().getWindow();
@@ -88,6 +96,11 @@ public class MainController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent checks to make sure a part is selected from parts table, then takes you to parts screen with that part's data loaded into it
+     * @throws IOException
+     */
     public void toModifyPart(ActionEvent actionEvent) throws IOException {
         selectedPart = partsTable.getSelectionModel().getSelectedItem();
         selectionIndex = Inventory.getAllParts().indexOf(selectedPart);
@@ -108,6 +121,10 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent checks that part is selected, confirms deletion action with user, then deletes selected part from allParts inventory
+     */
     public void deletePart(ActionEvent actionEvent) {
         Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
 
@@ -128,6 +145,11 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent when user enters text into search box above parts table, checks whether int or string, then compares either to list of inventory
+     *                    utilizing lookupPart function and sets table items with results
+     */
     public void searchParts(ActionEvent actionEvent) {
         String search = partSearch.getText();
         ObservableList<Part> parts = Inventory.lookupPart(search);
@@ -149,6 +171,11 @@ public class MainController implements Initializable {
         partsTable.setItems(parts);
     }
 
+    /**
+     *
+     * @param actionEvent takes user to add product screen with blanks
+     * @throws IOException
+     */
     public void toAddProduct(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/View/AddProduct.fxml"));
         Stage stage = (Stage) addProductButton.getScene().getWindow();
@@ -158,6 +185,11 @@ public class MainController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent takes user to modify product screen and passes data about selected product and its index to that controller
+     * @throws IOException
+     */
     public void toModifyProduct(ActionEvent actionEvent) throws IOException {
         selectedProduct = productsTable.getSelectionModel().getSelectedItem();
         selectionIndex = Inventory.getAllProducts().indexOf(selectedProduct);
@@ -179,6 +211,10 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent checks to make sure a product is selected, then deletes that product from allProducts inventory after confirming action with user
+     */
     public void deleteProduct(ActionEvent actionEvent) {
         Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
 
@@ -199,6 +235,10 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent uses lookupProduct to compare given search box text to list of allProducts in inventory, returns results and sets table with resulting list
+     */
     public void searchProducts(ActionEvent actionEvent) {
         String search = productSearch.getText();
         ObservableList<Product> products = Inventory.lookupProduct(search);
@@ -220,6 +260,10 @@ public class MainController implements Initializable {
         productsTable.setItems(products);
     }
 
+    /**
+     *
+     * @param actionEvent upon pressing exit button, closes program fully
+     */
     public void exitProgram(ActionEvent actionEvent) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
