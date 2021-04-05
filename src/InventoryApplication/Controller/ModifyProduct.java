@@ -122,7 +122,12 @@ public class ModifyProduct implements Initializable {
 
     }
 
-
+    /**
+     *
+     * @param actionEvent upon clicking save button, checks for any blanks in the text fields, if no blanks assigns each text field entry to a value for the updated product,
+     *                    then uses updateProduct to replace product at the index of selectedProduct with the new information
+     * @throws IOException
+     */
     public void saveModifyProduct(ActionEvent actionEvent) throws IOException {
         if (idTextField.getText().isEmpty() || nameTextField.getText().isEmpty() || priceTextField.getText().isEmpty() || invTextField.getText().isEmpty() || minTextField.getText().isEmpty() || maxTextField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -164,6 +169,11 @@ public class ModifyProduct implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent on clicking cancel button, returns user to main screen of application
+     * @throws IOException
+     */
     public void toMainScreen(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/View/MainScreen.fxml"));
         Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -173,6 +183,11 @@ public class ModifyProduct implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param product selected product is passed in for modification from the main screen controller
+     * @param index index of selected product is also passed in for update purposes in allProducts inventory
+     */
     public static void passData(Product product, int index) {
         selection = product;
         selectionIndex = index;
