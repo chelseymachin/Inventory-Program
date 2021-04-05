@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /** This class acts as a Controller for the Add Product screen.  You can enter in all fields and then save to generate a new product for Inventory */
@@ -65,6 +66,10 @@ public class AddProduct implements Initializable {
         idTextField.setText(String.valueOf(Inventory.getRandomId()));
     }
 
+    /**
+     *
+     * @param actionEvent uses lookupPart to compare search string in parts table with list of allParts in inventory, returns results and sets them to the table
+     */
     public void searchParts(ActionEvent actionEvent) {
         String search = partsSearch.getText();
         ObservableList<Part> parts = Inventory.lookupPart(search);
@@ -86,18 +91,54 @@ public class AddProduct implements Initializable {
         allPartsTable.setItems(parts);
     }
 
+    /**
+     *
+     * @param actionEvent adds selected part if selection is not null
+     */
     public void addPart(ActionEvent actionEvent) {
         Part selectedPart = allPartsTable.getSelectionModel().getSelectedItem();
-        associatedParts.add(selectedPart);
-        associatedPartsTable.setItems(associatedParts);
+        if (selectedPart != null) {
+            associatedParts.add(selectedPart);
+            associatedPartsTable.setItems(associatedParts);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("No value selected");
+            alert.setContentText("Please select a part to add");
+            alert.showAndWait();
+        }
+
     }
 
+    /**
+     *
+     * @param actionEvent checks that selection is not null, confirms deletion with user, then removes selected part from associated parts table (not inventory itself)
+     */
     public void removePart(ActionEvent actionEvent) {
         Part selectedPart = associatedPartsTable.getSelectionModel().getSelectedItem();
-        associatedParts.remove(selectedPart);
-        associatedPartsTable.setItems(associatedParts);
+        if (selectedPart != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Confirm Remove Part");
+            alert.setContentText("Are you sure you want to remove this part?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                associatedParts.remove(selectedPart);
+                associatedPartsTable.setItems(associatedParts);
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("No value selected");
+            alert.setContentText("Please select a part to remove");
+            alert.showAndWait();
+        }
+
     }
 
+    /**
+     *
+     * @param actionEvent checks for blanks in screen fields, if no blanks, sets data values with input from fields, adds product to inventory, returns to main screen
+     * @throws IOException
+     */
     public void saveAddProduct(ActionEvent actionEvent) throws IOException {
         if (idTextField.getText().isEmpty() || nameTextField.getText().isEmpty() || priceTextField.getText().isEmpty() || invTextField.getText().isEmpty() || minTextField.getText().isEmpty() || maxTextField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -139,6 +180,11 @@ public class AddProduct implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent when cancel button pressed, returns user to main screen without saving
+     * @throws IOException
+     */
     public void toMainScreen(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/View/MainScreen.fxml"));
         Stage stage = (Stage) cancelButton.getScene().getWindow();

@@ -36,14 +36,27 @@ public class AddPart implements Initializable {
     public Button saveButton;
     public Button cancelButton;
 
+    /**
+     *
+     * @param actionEvent changes bottom input label to Machine ID when inhouse radio button selected
+     */
     public void toInhouse(ActionEvent actionEvent) {
         addPartChangeLabel.setText("Machine ID");
     }
 
+    /**
+     *
+     * @param actionEvent changes bottom input label to Company Name when outsourced radio button selected
+     */
     public void toOutsourced(ActionEvent actionEvent) {
         addPartChangeLabel.setText("Company Name");
     }
 
+    /**
+     *
+     * @param actionEvent checks for blanks in any text field, assigns data to parameters to create new part based on input, returns user to main screen
+     * @throws IOException
+     */
     public void saveAddPart(ActionEvent actionEvent) throws IOException {
         if (idTextField.getText().isEmpty() || nameTextField.getText().isEmpty() || priceTextField.getText().isEmpty() || inventoryTextField.getText().isEmpty() || minTextField.getText().isEmpty() || maxTextField.getText().isEmpty() || machineIdTextField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -89,6 +102,11 @@ public class AddPart implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent if cancel button pressed, returns user to main screen without saving
+     * @throws IOException
+     */
     public void toMainScreen(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/InventoryApplication/View/MainScreen.fxml"));
         Stage stage = (Stage) cancelButton.getScene().getWindow();
