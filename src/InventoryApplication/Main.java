@@ -1,10 +1,14 @@
 package InventoryApplication;
 
+
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+/** This class creates an application that stores and manipulates parts and products as an inventory mangement system */
 
 public class Main extends Application {
 

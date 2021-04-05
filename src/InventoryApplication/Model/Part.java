@@ -1,12 +1,10 @@
 package InventoryApplication.Model;
-/**
- * * Supplied class Part.java
- */
 
-/**
- *
- * @author Chelsey Machin
- */
+/** Supplied class Part.java */
+
+
+/** @author Chelsey Machin */
+
 public abstract class Part {
     private int id;
     private String name;

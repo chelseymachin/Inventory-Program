@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/** This class acts as a Controller for the Modify Part screen.  You can edit all or some fields and then save to update the selected part in Inventory */
+
+
 public class ModifyPart implements Initializable {
     public RadioButton inhouse;
     public ToggleGroup sourceGroup;

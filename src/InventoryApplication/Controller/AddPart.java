@@ -1,5 +1,6 @@
 package InventoryApplication.Controller;
 
+
 import InventoryApplication.Model.InHouse;
 import InventoryApplication.Model.Outsourced;
 import InventoryApplication.Model.Inventory;
@@ -16,6 +17,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+/** This class acts as a Controller for the Add Part screen.  You can enter in all fields and then save to generate a new part for Inventory */
+
 
 public class AddPart implements Initializable {
     public RadioButton inhouse;

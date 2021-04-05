@@ -19,6 +19,9 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/** This class acts as a Controller for the Modify Product screen.  You can edit all or some fields and then save to update the selected product in Inventory */
+
+
 public class ModifyProduct implements Initializable {
     public TextField idTextField;
     public TextField nameTextField;

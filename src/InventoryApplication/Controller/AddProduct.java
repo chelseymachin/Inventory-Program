@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/** This class acts as a Controller for the Add Product screen.  You can enter in all fields and then save to generate a new product for Inventory */
+
+
 public class AddProduct implements Initializable {
     public TextField idTextField;
     public TextField nameTextField;

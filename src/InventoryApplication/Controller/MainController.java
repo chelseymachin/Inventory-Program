@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+/** This class acts as a Controller for the Main screen.  You can search through all parts and products here, select one to modify, or go to the add screen. */
+
 
 public class MainController implements Initializable {
     public TableView<Part> partsTable;
